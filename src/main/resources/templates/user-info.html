@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:form="http://www.w3.org/1999/xhtml">
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <title>User save or update</title>
+</head>
+<body>
+<h2>User info</h2>
+<br><br>
+
+<form th:action="@{/admin/saveUser}" th:object="${user}">
+
+    <input type="hidden" th:field="*{id}"/>
+
+    Name <input type="text" th:field="*{name}"/>
+    <br>
+    Surname <input type="text" th:field="*{surname}"/>
+    <br>
+    Age <input type="number" th:field="*{age}"/>
+    <br>
+    Phone <input type="text" th:field="*{phone}"/>
+    <br>
+    Username <input type="text" th:field="*{username}"/>
+    <br>
+    Password <input type="text" th:field="*{password}"/>
+    <br>
+    <input type="submit" value="add">
+
+</form>
+</body>
+</html>
