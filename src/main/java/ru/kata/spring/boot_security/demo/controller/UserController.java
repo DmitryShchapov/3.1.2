@@ -16,7 +16,7 @@ public class UserController {
     private UserService userService;
 
 
-    @RequestMapping("/user")
+    @RequestMapping
     public String userPage (Model model, Principal principal) {
         model.addAttribute("user",userService.loadUserByUsername(principal.getName()));
         return "user";

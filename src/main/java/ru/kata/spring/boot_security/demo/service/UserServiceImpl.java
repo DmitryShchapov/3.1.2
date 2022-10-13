@@ -14,11 +14,14 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private UserDao userDao;
 
-    @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public UserServiceImpl(UserDao userDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userDao = userDao;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Override
     @Transactional

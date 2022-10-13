@@ -22,18 +22,22 @@ import java.util.Set;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+    public AdminController(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
+    }
 
-    @Autowired
+
     private UserService userService;
 
-    @Autowired
+
     private RoleService roleService;
 
     private User user1;
     private User user2;
 
 
-    @GetMapping("/")
+    @RequestMapping
     public String showAllUsers(Model model) {
         List<User> allUsers = userService.getAllUsers();
         model.addAttribute("allUsers", allUsers);
@@ -69,6 +73,8 @@ public class AdminController {
 
     @PostConstruct
     public void addDefaultUser() {
+        roleService.saveRole(new Role(1L, "ROLE_USER"));
+        roleService.saveRole(new Role(2L, "ROLE_ADMIN"));
         Set<Role> roleSet1 = new HashSet<>();
         roleSet1.add(roleService.getRole(1L));
         Set<Role> roleSet2 = new HashSet<>();
@@ -78,12 +84,6 @@ public class AdminController {
         user2 = new User("admin", "admin", roleSet2, "Petr", "Sidorov", 27, "156756756");
         saveUser(user1);
         saveUser(user2);
-    }
-
-    @PreDestroy
-    public void deleteDefaultUser() {
-        deleteUserById(user1.getId());
-        deleteUserById(user2.getId());
     }
 
 

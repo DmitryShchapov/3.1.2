@@ -25,7 +25,9 @@ public class RoleDaoImp implements RoleDao {
 
     @Override
     public void saveRole(Role role) {
-        entityManager.persist(role);
+        if (role.getId() == null) {
+            entityManager.persist(role);
+        } else entityManager.merge(role);
     }
 
     @Override
