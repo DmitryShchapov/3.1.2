@@ -6,6 +6,7 @@ import ru.kata.spring.boot_security.demo.entity.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -46,11 +47,10 @@ public class UserDaoImpl implements UserDao {
     @Override
     public UserDetails findUserByUsername(String username) {
 
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
-        Root<User> itemRoot = criteriaQuery.from(User.class);
-        criteriaQuery.where(criteriaBuilder.equal(itemRoot.get("username"), username));
-        return entityManager.createQuery(criteriaQuery).getSingleResult();
+        TypedQuery<User> query = (entityManager.createQuery("select user from User user " +
+                "join fetch user.roles where user.username = :username",User.class));
+        query.setParameter("username",username);
+        return query.getResultList().stream().findFirst().orElse(null);
     }
 
 }
